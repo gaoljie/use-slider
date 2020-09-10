@@ -1,9 +1,0 @@
-.slider-container {
-  display: flex;
-  overflow: hidden;
-}
-
-.slider-container__slide {
-  width: 100%;
-  flex-shrink: 0;
-}
