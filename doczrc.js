@@ -1,4 +1,4 @@
 export default {
   typescript: true,
-  base: "/docz"
+  base: "/use-slider"
 };
