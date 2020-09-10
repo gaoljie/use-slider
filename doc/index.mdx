@@ -1,0 +1,30 @@
+---
+name: Getting Started
+route: /
+---
+
+import { Playground } from "docz";
+import useSlider from "../src";
+import "../src/slider.css";
+
+# Basic
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider();
+    const list = [1, 2, 3, 4, 5];
+    return (
+      <>
+        <div ref={ref}>
+          {list.map(item => (
+            <div key={item}>{item}</div>
+          ))}
+        </div>
+        <div>
+          <button onClick={() => slide.prev()}>prev</button>
+          <button onClick={() => slide.next()}>next</button>
+        </div>
+      </>
+    );
+  }}
+</Playground>

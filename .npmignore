@@ -1,0 +1,13 @@
+node_modules/
+src/
+.docz/
+doc/
+.gitignore
+.npmignore
+doczrc.js
+rollup.config.js
+tsconfig.json
+yarn.lock
+.idea/
+.eslintrc.js
+prettier.config.js
