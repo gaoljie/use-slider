@@ -4,6 +4,20 @@
   "description": "A react based use hook for sliders",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "author": "Jay Gao",
+  "license": "MIT",
+  "homepage": "https://gaoljie.github.io/use-slider/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaoljie/use-slider"
+  },
+  "keywords": [
+    "slider",
+    "carousel",
+    "react",
+    "components",
+    "image slider"
+  ],
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.tsx,.ts",
     "dev": "docz dev",
@@ -11,8 +25,6 @@
     "serve": "docz build && docz serve",
     "compile": "rimraf lib && rollup --config"
   },
-  "author": "Jay Gao",
-  "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/react": "^16.9.49",
