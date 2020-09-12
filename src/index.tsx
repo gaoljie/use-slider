@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, RefObject } from "react";
 import useAutoPlay from "./hooks/useAutoPlay";
+import useEvent from "./hooks/useEvent";
 
 export default function useSlider(
   options: {
@@ -11,7 +12,7 @@ export default function useSlider(
   } = {}
 ): [RefObject<HTMLDivElement>, { prev: () => void; next: () => void }] {
   const {
-    speed = 500,
+    speed = 300,
     autoPlay = false,
     autoPlaySpeed = 3000,
     loop = false,
@@ -27,6 +28,18 @@ export default function useSlider(
   const slideWidth = parentWidth / slidesPerView;
 
   const [curIndex, setCurIndex] = useState(0);
+
+  useEvent(
+    ref.current,
+    curIndex,
+    slideWidth,
+    parentWidth,
+    reqIDRef.current,
+    speed,
+    setCurIndex,
+    loop,
+    slidesPerView
+  );
 
   const prev = () => {
     if (!ref || !ref.current) return;

@@ -9,6 +9,12 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
-  plugins: ["@typescript-eslint"],
-  ignorePatterns: ["lib/*"]
+  plugins: ["@typescript-eslint", "react-hooks"],
+  ignorePatterns: ["lib/*"],
+  rules: {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "no-console": "error",
+    "no-unused-vars": "error"
+  }
 };
