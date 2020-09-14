@@ -8,7 +8,7 @@ export default function useAutoPlay(
 ): void {
   const timer = useRef(0);
 
-  const wrapCallback = useCallback(cb, [ref.current]);
+  const wrapCallback = useCallback(cb, [ref.current, cb]);
 
   const [pause, setPause] = useState(false);
 
