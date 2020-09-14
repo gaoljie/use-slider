@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, RefObject } from "react";
 import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
+import "./slider.scss";
 
 export default function useSlider(
   options: {
