@@ -24,7 +24,7 @@ jobs:
   build:
     <<: *defaults
     steps:
-      - checkout
+#      - checkout
       - attach_workspace:
           at: ~/project
       - run: yarn build
