@@ -1,38 +1,40 @@
-import { useState, useRef, useEffect, useCallback, RefObject } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function useAutoPlay(
-  ref: RefObject<HTMLDivElement>,
+  container: HTMLDivElement | null,
   cb: () => void,
   autoPlaySpeed: number,
   autoPlay: boolean
 ): void {
   const timer = useRef(0);
 
-  const wrapCallback = useCallback(cb, [ref.current, cb]);
-
   const [pause, setPause] = useState(false);
 
   useEffect(() => {
-    if (!ref || !ref.current) return;
+    if (!container) return;
 
-    ref.current.addEventListener("mouseover", () => {
-      setPause(true);
-    });
-    ref.current.addEventListener("mouseout", () => {
-      setPause(false);
-    });
-  }, [ref]);
+    const mouseOverEvent = () => setPause(true);
+    const mouseOutEvent = () => setPause(false);
+
+    container.addEventListener("mouseover", mouseOverEvent);
+    container.addEventListener("mouseout", mouseOutEvent);
+
+    return () => {
+      container.removeEventListener("mouseover", mouseOverEvent);
+      container.removeEventListener("mouseout", mouseOutEvent);
+    };
+  }, [container]);
 
   useEffect(() => {
     if (autoPlay) {
       timer.current = window.setInterval(() => {
         if (!pause) {
-          wrapCallback();
+          cb();
         }
       }, autoPlaySpeed);
     }
     return () => {
       clearInterval(timer.current);
     };
-  }, [pause, autoPlaySpeed, wrapCallback, autoPlay]);
+  }, [pause, autoPlaySpeed, cb, autoPlay]);
 }

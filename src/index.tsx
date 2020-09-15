@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, RefObject } from "react";
+import { useRef, useEffect, useState, RefObject, useCallback } from "react";
 import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
 import "./slider.scss";
@@ -23,35 +23,24 @@ export default function useSlider(
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const reqIDRef = useRef(0);
+  const container = ref.current;
 
-  const [parentWidth, setParentWidth] = useState(0);
+  const parentWidth = container ? container.clientWidth : 0;
+
+  const reqIDRef = useRef(0);
 
   const slideWidth = parentWidth / slidesPerView;
 
   const [curIndex, setCurIndex] = useState(0);
 
-  useEvent(
-    ref.current,
-    curIndex,
-    slideWidth,
-    parentWidth,
-    reqIDRef.current,
-    speed,
-    setCurIndex,
-    loop,
-    slidesPerView
-  );
+  const prev = useCallback(() => {
+    if (!container) return;
 
-  const prev = () => {
-    if (!ref || !ref.current) return;
-
-    const container = ref.current;
     const childrenNum = container.children.length;
 
-    if (!loop && curIndex === 0) return;
-
     setCurIndex(prev => {
+      if (!loop && prev === 0) return prev;
+
       let newIndex;
 
       if (prev === 0) {
@@ -75,17 +64,16 @@ export default function useSlider(
 
       return newIndex;
     });
-  };
+  }, [container, loop, slideWidth, slidesPerView, speed]);
 
-  const next = () => {
-    if (!ref || !ref.current) return;
+  const next = useCallback(() => {
+    if (!container) return;
 
-    const container = ref.current;
     const childrenNum = container.children.length;
 
-    if (!loop && curIndex >= childrenNum - slidesPerView) return;
-
     setCurIndex(prev => {
+      if (!loop && prev >= childrenNum - slidesPerView) return prev;
+
       move({
         slideWidth,
         slidesPerView,
@@ -101,14 +89,10 @@ export default function useSlider(
 
       return (prev + 1) % childrenNum;
     });
-  };
+  }, [container, loop, slideWidth, slidesPerView, speed]);
 
   useEffect(() => {
-    if (!ref || !ref.current) return;
-
-    const container = ref.current;
-
-    setParentWidth(container.clientWidth);
+    if (!container) return;
 
     container.classList.add("slider-container");
 
@@ -119,7 +103,19 @@ export default function useSlider(
 
       child.style.width = `${(1 / slidesPerView) * 100}%`;
     }
-  }, [speed, ref, slidesPerView]);
+  }, [container, slidesPerView]);
+
+  useEvent(
+    container,
+    curIndex,
+    slideWidth,
+    parentWidth,
+    reqIDRef.current,
+    speed,
+    setCurIndex,
+    loop,
+    slidesPerView
+  );
 
   useAutoPlay(ref, next, autoPlaySpeed, autoPlay);
 

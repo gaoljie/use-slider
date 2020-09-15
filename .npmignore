@@ -7,6 +7,7 @@ src/
 .gitignore
 .npmignore
 doczrc.js
+gatsby-config.js
 prettier.config.js
 rollup.config.js
 tsconfig.json
