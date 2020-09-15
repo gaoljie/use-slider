@@ -25,14 +25,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          key: module-cache-{{ checksum "yarn.lock" }}
-      - run: yarn
-      - run: yarn lint
-      - save_cache:
-          paths:
-            - node_modules
-          key: module-cache-{{ checksum "yarn.lock" }}
+      - attach_workspace:
+          at: ~/project
       - run: yarn build
       - run: |
           git config user.email "gaoljie@gmail.com"
@@ -57,16 +51,15 @@ workflows:
     jobs:
       - install:
           filters:
-            branches:
-              ignore:
-                - master
             tags:
               only: /^v.*/
       - build:
+          requires:
+            - install
           filters:
             branches:
               only:
-                - master
+                - development
       - deploy:
           requires:
             - install
