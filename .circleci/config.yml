@@ -59,11 +59,9 @@ workflows:
             branches:
               only:
                 - master
-            tags:
-              only: /^v.*/
       - deploy:
           requires:
-            - build
+            - install
           filters:
             tags:
               only: /^v.*/
