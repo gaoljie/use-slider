@@ -4,6 +4,11 @@ import useEvent from "./hooks/useEvent";
 import "./slider.scss";
 import move from "./utils/move";
 
+export interface SlideProps {
+  prev: () => void;
+  next: () => void;
+}
+
 export default function useSlider(
   options: {
     autoPlay?: boolean;
@@ -12,7 +17,7 @@ export default function useSlider(
     speed?: number;
     loop?: boolean;
   } = {}
-): [RefObject<HTMLDivElement>, { prev: () => void; next: () => void }] {
+): [RefObject<HTMLDivElement>, SlideProps] {
   const {
     speed = 300,
     autoPlay = false,
@@ -96,12 +101,12 @@ export default function useSlider(
 
     setParentWidth(ref.current.clientWidth);
 
-    ref.current.classList.add("slider-container");
+    ref.current.classList.add("use-slider");
 
     for (let i = 0; i < ref.current.children.length; i += 1) {
       const child = ref.current.children[i] as HTMLElement;
 
-      child.classList.add("slider-container__slide");
+      child.classList.add("use-slider__slide");
 
       child.style.width = `${(1 / slidesPerView) * 100}%`;
     }

@@ -5,7 +5,28 @@ route: /
 
 import { Playground } from "docz";
 import useSlider from "../src";
+import Arrow from "../src/components/Arrow";
 import "../src/example.scss";
+
+# Navigation
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider({ loop: true });
+    return (
+      <div style={{ position: "relative" }}>
+        <div ref={ref}>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+        </div>
+        <Arrow slide={slide} />
+      </div>
+    );
+  }}
+</Playground>
 
 # Button
 
