@@ -20,7 +20,10 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-      - run: yarn release
+      - run: |
+          git config user.email "gaoljie@gmail.com"
+          git config user.name "Jay Gao"
+          yarn release
 
   build:
     <<: *defaults
