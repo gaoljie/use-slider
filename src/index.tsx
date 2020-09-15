@@ -1,4 +1,13 @@
-import { useRef, useEffect, useState, RefObject, useCallback } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  RefObject,
+  ReactElement,
+  cloneElement,
+  useCallback
+} from "react";
+import ReactDOM from "react-dom";
 import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
 import "./slider.scss";
@@ -17,6 +26,8 @@ export default function useSlider(
     speed?: number;
     loop?: boolean;
     navigation?: boolean;
+    arrowLeft?: ReactElement;
+    arrowRight?: ReactElement;
   } = {}
 ): [RefObject<HTMLDivElement>, SlideProps] {
   const {
@@ -25,7 +36,9 @@ export default function useSlider(
     duration = 3000,
     loop = false,
     slidesPerView = 1,
-    navigation = false
+    navigation = false,
+    arrowLeft,
+    arrowRight
   } = options;
 
   const ref = useRef<HTMLDivElement>(null);
@@ -44,8 +57,7 @@ export default function useSlider(
 
       let newIndex;
 
-      const childrenNum = ref.current.querySelectorAll(".use-slider__slide")
-        .length;
+      const childrenNum = ref.current.querySelectorAll(".slider-slide").length;
 
       if (prev === 0) {
         newIndex = childrenNum - 1;
@@ -78,8 +90,7 @@ export default function useSlider(
     setCurIndex(prev => {
       if (!ref.current) return prev;
 
-      const childrenNum = ref.current.querySelectorAll(".use-slider__slide")
-        .length;
+      const childrenNum = ref.current.querySelectorAll(".slider-slide").length;
 
       if (!loop && prev >= childrenNum - slidesPerView) return prev;
 
@@ -105,12 +116,12 @@ export default function useSlider(
 
     setParentWidth(ref.current.clientWidth);
 
-    ref.current.classList.add("use-slider");
+    ref.current.classList.add("slider-container");
 
     for (let i = 0; i < ref.current.children.length; i += 1) {
       const child = ref.current.children[i] as HTMLElement;
 
-      child.classList.add("use-slider__slide");
+      child.classList.add("slider-slide");
 
       child.style.width = `${(1 / slidesPerView) * 100}%`;
     }
@@ -118,30 +129,59 @@ export default function useSlider(
 
   useEffect(() => {
     if (!ref.current) return;
-    if (navigation) {
+    if (navigation || arrowLeft || arrowRight) {
       const oldNavigationNode = ref.current.querySelector(
-        ".use-slider__arrow__container"
+        ".slider-arrow-container"
       );
 
       if (oldNavigationNode) ref.current.removeChild(oldNavigationNode);
 
       const navigationContainer = document.createElement("div");
-      navigationContainer.classList.add("use-slider__arrow__container");
+      navigationContainer.classList.add("slider-arrow-container");
 
-      const navigationLeft = document.createElement("div");
-      navigationLeft.classList.add("use-slider__arrow__left");
+      const navigationList = [];
 
-      const navigationRight = document.createElement("div");
-      navigationRight.classList.add("use-slider__arrow__right");
+      if (arrowLeft)
+        navigationList.push(
+          cloneElement(arrowLeft, {
+            onClick: prev,
+            className: `${
+              arrowLeft.props.className ? arrowLeft.props.className : ""
+            } slider-arrow-left`
+          })
+        );
 
-      navigationContainer.appendChild(navigationLeft);
-      navigationContainer.appendChild(navigationRight);
+      if (arrowRight)
+        navigationList.push(
+          cloneElement(arrowRight, {
+            onClick: next,
+            className: `${
+              arrowRight.props.className ? arrowRight.props.className : ""
+            } slider-arrow-right`
+          })
+        );
+
+      if (navigationList.length) {
+        ReactDOM.render(navigationList, navigationContainer);
+      } else {
+        const navigationLeft = document.createElement("div");
+        navigationLeft.classList.add("slider-arrow-left");
+        navigationLeft.classList.add("slider-arrow-left__default");
+
+        const navigationRight = document.createElement("div");
+        navigationRight.classList.add("slider-arrow-right");
+        navigationRight.classList.add("slider-arrow-right__default");
+
+        navigationContainer.appendChild(navigationLeft);
+        navigationContainer.appendChild(navigationRight);
+
+        navigationLeft.addEventListener("click", prev);
+        navigationRight.addEventListener("click", next);
+      }
 
       ref.current.appendChild(navigationContainer);
-
-      navigationLeft.addEventListener("click", prev);
-      navigationRight.addEventListener("click", next);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prev, next, navigation]);
 
   useEvent(

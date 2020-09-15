@@ -5,8 +5,77 @@ route: /
 
 import { Playground } from "docz";
 import useSlider from "../src";
-import Arrow from "../src/components/Arrow";
 import "../src/example.scss";
+
+# Basic
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider();
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Multiple Slide
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider({ slidesPerView: 3 });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Loop
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider({
+      loop: true
+    });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Multiple Slide With Loop
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider({ slidesPerView: 3, loop: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
 
 # Navigation
 
@@ -25,23 +94,22 @@ import "../src/example.scss";
   }}
 </Playground>
 
-# Button
+# Custom Navigation
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({ loop: true });
+    const [ref, slide] = useSlider({
+      arrowLeft: <span style={{ fontSize: "50px" }}> {"<"} </span>,
+      arrowRight: <span style={{ fontSize: "50px" }}> {">"} </span>
+    });
     return (
-      <>
-        <div ref={ref}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-        </div>
-        <button onClick={() => slide.prev()}>Prev</button>
-        <button onClick={() => slide.next()}>Next</button>
-      </>
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
     );
   }}
 </Playground>
@@ -83,94 +151,3 @@ import "../src/example.scss";
 <!--     ); -->
 <!--   }} -->
 <!-- </Playground> -->
-
-# Button
-
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider();
-    return (
-      <>
-        <div ref={ref}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-        </div>
-        <button onClick={() => slide.prev()}>Prev</button>
-        <button onClick={() => slide.next()}>Next</button>
-      </>
-    );
-  }}
-</Playground>
-
-# Multiple Slide With Loop
-
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider({ slidesPerView: 3, loop: true });
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>
-
-# Multiple Slide
-
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider({ slidesPerView: 3 });
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>
-
-# Basic
-
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider();
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>
-
-# Loop
-
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider({
-      loop: true
-    });
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>

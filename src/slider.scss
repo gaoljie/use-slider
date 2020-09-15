@@ -1,14 +1,17 @@
-.use-slider {
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  &__slide {
+.slider {
+  &-container {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &-slide {
     width: 100%;
     flex-shrink: 0;
   }
 
-  &__arrow {
-    &__container {
+  &-arrow {
+    &-container {
       display: flex;
       padding: 0 20px;
       align-items: center;
@@ -20,22 +23,26 @@
       transform: translateY(-50%);
     }
 
-    &__left {
-      border: black solid;
-      padding: 8px;
-      border-width: 0 3px 3px 0;
-      display: inline-block;
-      transform: rotate(135deg);
+    &-left {
       cursor: pointer;
+      &__default {
+        border: black solid;
+        padding: 8px;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        transform: rotate(135deg);
+      }
     }
 
-    &__right {
-      border: black solid;
-      padding: 8px;
-      border-width: 0 3px 3px 0;
-      display: inline-block;
-      transform: rotate(-45deg);
+    &-right {
       cursor: pointer;
+      &__default {
+        border: black solid;
+        padding: 8px;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        transform: rotate(-45deg);
+      }
     }
   }
 }

@@ -40,8 +40,7 @@ export default function useEvent(
         movedDelta = Math.pow(deltaX, 9 / 10);
       }
 
-      const childrenNum = container.querySelectorAll(".use-slider__slide")
-        .length;
+      const childrenNum = container.querySelectorAll(".slider-slide").length;
 
       if (!loop && curIndex >= childrenNum - slidesPerView && deltaX < 0) {
         movedDelta = -Math.pow(-deltaX, 9 / 10);
@@ -92,8 +91,7 @@ export default function useEvent(
 
       let newIndex = curIndex;
 
-      const childrenNum = container.querySelectorAll(".use-slider__slide")
-        .length;
+      const childrenNum = container.querySelectorAll(".slider-slide").length;
 
       if (deltaX < 0) {
         newIndex = (curIndex + 1) % childrenNum;
