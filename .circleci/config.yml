@@ -20,6 +20,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
+      - run: yarn release
 
   build:
     <<: *defaults
