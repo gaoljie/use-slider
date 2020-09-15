@@ -31,7 +31,7 @@ jobs:
   deploy:
     <<: *defaults
     steps:
-      - checkout
+#      - checkout
       - attach_workspace:
           at: ~/project
       - run:
