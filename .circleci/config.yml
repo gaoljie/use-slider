@@ -56,10 +56,10 @@ workflows:
   build-deploy:
     jobs:
       - install:
-          branches:
-            ignore:
-              - master
           filters:
+            branches:
+              ignore:
+                - master
             tags:
               only: /^v.*/
       - build:
