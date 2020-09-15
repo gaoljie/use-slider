@@ -27,7 +27,7 @@ export default function move(options: {
 
   let startTime: number;
 
-  const childrenNum = container.children.length;
+  const childrenNum = container.querySelectorAll(".use-slider__slide").length;
 
   function moveAnimation(timestamp: number) {
     if (!startTime) startTime = timestamp;

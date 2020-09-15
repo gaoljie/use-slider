@@ -1,7 +1,7 @@
 .use-slider {
   display: flex;
   overflow: hidden;
-
+  position: relative;
   &__slide {
     width: 100%;
     flex-shrink: 0;

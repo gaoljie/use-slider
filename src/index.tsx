@@ -16,6 +16,7 @@ export default function useSlider(
     slidesPerView?: number;
     speed?: number;
     loop?: boolean;
+    navigation?: boolean;
   } = {}
 ): [RefObject<HTMLDivElement>, SlideProps] {
   const {
@@ -23,7 +24,8 @@ export default function useSlider(
     autoPlay = false,
     duration = 3000,
     loop = false,
-    slidesPerView = 1
+    slidesPerView = 1,
+    navigation = false
   } = options;
 
   const ref = useRef<HTMLDivElement>(null);
@@ -42,7 +44,8 @@ export default function useSlider(
 
       let newIndex;
 
-      const childrenNum = ref.current.children.length;
+      const childrenNum = ref.current.querySelectorAll(".use-slider__slide")
+        .length;
 
       if (prev === 0) {
         newIndex = childrenNum - 1;
@@ -75,7 +78,8 @@ export default function useSlider(
     setCurIndex(prev => {
       if (!ref.current) return prev;
 
-      const childrenNum = ref.current.children.length;
+      const childrenNum = ref.current.querySelectorAll(".use-slider__slide")
+        .length;
 
       if (!loop && prev >= childrenNum - slidesPerView) return prev;
 
@@ -111,6 +115,34 @@ export default function useSlider(
       child.style.width = `${(1 / slidesPerView) * 100}%`;
     }
   }, [slidesPerView]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    if (navigation) {
+      const oldNavigationNode = ref.current.querySelector(
+        ".use-slider__arrow__container"
+      );
+
+      if (oldNavigationNode) ref.current.removeChild(oldNavigationNode);
+
+      const navigationContainer = document.createElement("div");
+      navigationContainer.classList.add("use-slider__arrow__container");
+
+      const navigationLeft = document.createElement("div");
+      navigationLeft.classList.add("use-slider__arrow__left");
+
+      const navigationRight = document.createElement("div");
+      navigationRight.classList.add("use-slider__arrow__right");
+
+      navigationContainer.appendChild(navigationLeft);
+      navigationContainer.appendChild(navigationRight);
+
+      ref.current.appendChild(navigationContainer);
+
+      navigationLeft.addEventListener("click", prev);
+      navigationRight.addEventListener("click", next);
+    }
+  }, [prev, next, navigation]);
 
   useEvent(
     ref.current,
