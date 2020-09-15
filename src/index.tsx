@@ -21,10 +21,12 @@ export interface SlideProps {
 export default function useSlider(
   options: {
     autoPlay?: boolean;
+    initial?: number;
     duration?: number;
     slidesPerView?: number;
     speed?: number;
     loop?: boolean;
+    pagination?: boolean;
     navigation?: boolean;
     arrowLeft?: ReactElement;
     arrowRight?: ReactElement;
@@ -32,10 +34,12 @@ export default function useSlider(
 ): [RefObject<HTMLDivElement>, SlideProps] {
   const {
     speed = 300,
+    initial = 0,
     autoPlay = false,
     duration = 3000,
     loop = false,
     slidesPerView = 1,
+    pagination = false,
     navigation = false,
     arrowLeft,
     arrowRight
@@ -47,7 +51,7 @@ export default function useSlider(
 
   const slideWidth = parentWidth / slidesPerView;
 
-  const [curIndex, setCurIndex] = useState(0);
+  const [curIndex, setCurIndex] = useState(initial);
 
   const prev = useCallback(() => {
     setCurIndex(prev => {
@@ -110,6 +114,33 @@ export default function useSlider(
       return (prev + 1) % childrenNum;
     });
   }, [loop, slideWidth, slidesPerView, speed]);
+
+  const moveTo = useCallback(
+    index => {
+      setCurIndex(prev => {
+        if (!ref.current) return prev;
+
+        const childrenNum = ref.current.querySelectorAll(".slider-slide")
+          .length;
+
+        move({
+          slideWidth,
+          slidesPerView,
+          container: ref.current,
+          loop,
+          speed,
+          leftStart: -prev * slideWidth,
+          deltaX: (prev - index) * slideWidth,
+          curIndex: prev,
+          rightStart: (childrenNum - prev) * slideWidth,
+          animate: true
+        });
+
+        return index;
+      });
+    },
+    [loop, slideWidth, slidesPerView, speed]
+  );
 
   useEffect(() => {
     if (!ref.current) return;
@@ -183,6 +214,57 @@ export default function useSlider(
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prev, next, navigation]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    if (pagination) {
+      const oldPaginationNode = ref.current.querySelector(
+        ".slider-pagination-container"
+      );
+
+      if (oldPaginationNode) ref.current.removeChild(oldPaginationNode);
+
+      const paginationContainer = document.createElement("div");
+      paginationContainer.classList.add("slider-pagination-container");
+
+      for (
+        let i = 0;
+        i < ref.current.querySelectorAll(".slider-slide").length;
+        i += 1
+      ) {
+        const paginationItem = document.createElement("span");
+        paginationItem.classList.add("slider-pagination-dot");
+        paginationItem.classList.add("slider-pagination-dot__default");
+
+        if (initial === i) paginationItem.classList.add("active");
+
+        paginationItem.addEventListener("click", () => moveTo(i));
+        paginationContainer.appendChild(paginationItem);
+      }
+
+      ref.current.appendChild(paginationContainer);
+    }
+  }, [initial, prev, next, pagination, moveTo]);
+
+  useEffect(() => {
+    if (!ref.current || !pagination) return;
+
+    const paginationContainer = ref.current.querySelector(
+      ".slider-pagination-container"
+    );
+
+    if (!paginationContainer) return;
+
+    for (let i = 0; i < paginationContainer.children.length; i += 1) {
+      const child = paginationContainer.children[i] as HTMLElement;
+
+      if (i === curIndex) {
+        child.classList.add("active");
+      } else {
+        child.classList.remove("active");
+      }
+    }
+  }, [curIndex, pagination]);
 
   useEvent(
     ref.current,

@@ -7,11 +7,28 @@ import { Playground } from "docz";
 import useSlider from "../src";
 import "../src/example.scss";
 
+# Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
 # Basic
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider();
+    const [ref] = useSlider();
     return (
       <div ref={ref}>
         <div>1</div>
@@ -28,7 +45,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({ slidesPerView: 3 });
+    const [ref] = useSlider({ slidesPerView: 3 });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -45,7 +62,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({
+    const [ref] = useSlider({
       loop: true
     });
     return (
@@ -64,7 +81,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({ slidesPerView: 3, loop: true });
+    const [ref] = useSlider({ slidesPerView: 3, loop: true });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -81,7 +98,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({ loop: true, navigation: true });
+    const [ref] = useSlider({ loop: true, navigation: true });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -98,7 +115,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({
+    const [ref] = useSlider({
       arrowLeft: <span style={{ fontSize: "50px" }}> {"<"} </span>,
       arrowRight: <span style={{ fontSize: "50px" }}> {">"} </span>
     });
@@ -118,7 +135,7 @@ import "../src/example.scss";
 
 <!-- <Playground> -->
 <!--   {() => { -->
-<!--     const [ref, slide] = useSlider({ -->
+<!--     const [ref] = useSlider({ -->
 <!--       autoPlay: true, -->
 <!--       loop: true, -->
 <!--       duration: 1000 -->
@@ -139,7 +156,7 @@ import "../src/example.scss";
 
 <!-- <Playground> -->
 <!--   {() => { -->
-<!--     const [ref, slide] = useSlider({ autoPlay: true, loop: true }); -->
+<!--     const [ref] = useSlider({ autoPlay: true, loop: true }); -->
 <!--     return ( -->
 <!--       <div ref={ref}> -->
 <!--         <div>1</div> -->
