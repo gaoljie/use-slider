@@ -5,7 +5,7 @@ defaults: &defaults
     - image: circleci/node:12.0.0
 
 jobs:
-  build:
+  install:
     <<: *defaults
     steps:
       - checkout
@@ -17,15 +17,23 @@ jobs:
           paths:
             - node_modules
           key: module-cache-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
+
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
       - run: yarn build
       - run: |
           git config user.email "gaoljie@gmail.com"
           git config user.name "Jay Gao"
           yarn add gh-pages -D
           ./node_modules/.bin/gh-pages -d .docz/dist
-      - persist_to_workspace:
-          root: ~/project
-          paths: .
+      - run: yarn release
+
   deploy:
     <<: *defaults
     steps:
@@ -40,7 +48,19 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - install:
+          filters:
+            tags:
+              only: /^v.*/
+      - build:
+          requires:
+            - install
+          filters:
+            branches:
+              only:
+                - master
+            tags:
+              only: /^v.*/
       - deploy:
           requires:
             - build
