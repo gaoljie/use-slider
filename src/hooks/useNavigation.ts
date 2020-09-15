@@ -65,6 +65,5 @@ export default function useNavigation(options: {
 
       container.appendChild(navigationContainer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prev, next, navigation]);
+  }, [container, arrowLeft, arrowRight, prev, next, navigation]);
 }

@@ -33,6 +33,7 @@ export default function useSlider(
     arrowRight?: ReactElement;
   } = {}
 ): [RefObject<HTMLDivElement>, SlideProps] {
+  const [optionsSnapshot] = useState(options);
   const {
     speed = 300,
     initial = 0,
@@ -44,7 +45,7 @@ export default function useSlider(
     navigation = false,
     arrowLeft,
     arrowRight
-  } = options;
+  } = optionsSnapshot;
 
   const ref = useRef<HTMLDivElement>(null);
 

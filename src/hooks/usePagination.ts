@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { cloneElement, ReactElement, useEffect } from "react";
+import ReactDOM from "react-dom";
 
 export default function usePagination(options: {
   container: HTMLDivElement | null;
-  pagination: boolean;
+  pagination: boolean | ((index: number) => ReactElement) | ReactElement;
   curIndex: number;
   initial: number;
   moveTo: (index: number) => void;
@@ -10,22 +11,24 @@ export default function usePagination(options: {
   const { container, pagination, curIndex, initial, moveTo } = options;
 
   useEffect(() => {
-    if (!container) return;
-    if (pagination) {
-      const oldPaginationNode = container.querySelector(
-        ".slider-pagination-container"
-      );
+    if (!container || !pagination) return;
 
-      if (oldPaginationNode) container.removeChild(oldPaginationNode);
+    const oldPaginationNode = container.querySelector(
+      ".slider-pagination-container"
+    );
 
-      const paginationContainer = document.createElement("div");
-      paginationContainer.classList.add("slider-pagination-container");
+    if (oldPaginationNode) container.removeChild(oldPaginationNode);
 
-      for (
-        let i = 0;
-        i < container.querySelectorAll(".slider-slide").length;
-        i += 1
-      ) {
+    const paginationContainer = document.createElement("div");
+    paginationContainer.classList.add("slider-pagination-container");
+    const paginationList = [];
+
+    for (
+      let i = 0;
+      i < container.querySelectorAll(".slider-slide").length;
+      i += 1
+    ) {
+      if (pagination === true) {
         const paginationItem = document.createElement("span");
         paginationItem.classList.add("slider-pagination-dot");
         paginationItem.classList.add("slider-pagination-dot__default");
@@ -34,10 +37,27 @@ export default function usePagination(options: {
 
         paginationItem.addEventListener("click", () => moveTo(i));
         paginationContainer.appendChild(paginationItem);
+      } else {
+        const renderedComponent =
+          typeof pagination === "function" ? pagination(i) : pagination;
+        paginationList.push(
+          cloneElement(renderedComponent, {
+            onClick: () => moveTo(i),
+            className: `${
+              renderedComponent.props.className
+                ? renderedComponent.props.className
+                : ""
+            } slider-pagination-dot ${initial === i ? "active" : ""}`
+          })
+        );
       }
-
-      container.appendChild(paginationContainer);
     }
+
+    if (paginationList.length) {
+      ReactDOM.render(paginationList, paginationContainer);
+    }
+
+    container.appendChild(paginationContainer);
   }, [container, initial, pagination, moveTo]);
 
   useEffect(() => {
