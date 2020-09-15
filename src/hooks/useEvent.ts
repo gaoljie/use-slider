@@ -6,16 +6,25 @@ function getClientX(e: MouseEvent | TouchEvent) {
   return "touches" in e ? e.changedTouches[0].clientX : e.clientX;
 }
 
-export default function useEvent(
-  container: HTMLDivElement | null,
-  curIndex: number,
-  slideWidth: number,
-  parentWidth: number,
-  speed: number,
-  setCurIndex: (value: SetStateAction<number>) => void,
-  loop: boolean,
-  slidesPerView: number
-): void {
+export default function useEvent(options: {
+  container: HTMLDivElement | null;
+  curIndex: number;
+  slideWidth: number;
+  speed: number;
+  setCurIndex: (value: SetStateAction<number>) => void;
+  loop: boolean;
+  slidesPerView: number;
+}): void {
+  const {
+    container,
+    curIndex,
+    slideWidth,
+    speed,
+    setCurIndex,
+    loop,
+    slidesPerView
+  } = options;
+
   const [startClientX, setStartClientX] = useState<number | null>(null);
 
   const dragStart = useCallback((e: MouseEvent | TouchEvent) => {

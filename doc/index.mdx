@@ -7,23 +7,6 @@ import { Playground } from "docz";
 import useSlider from "../src";
 import "../src/example.scss";
 
-# Pagination
-
-<Playground>
-  {() => {
-    const [ref] = useSlider({ pagination: true });
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>
-
 # Basic
 
 <Playground>
@@ -82,6 +65,23 @@ import "../src/example.scss";
 <Playground>
   {() => {
     const [ref] = useSlider({ slidesPerView: 3, loop: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: true });
     return (
       <div ref={ref}>
         <div>1</div>

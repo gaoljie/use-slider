@@ -4,18 +4,19 @@ import {
   useState,
   RefObject,
   ReactElement,
-  cloneElement,
   useCallback
 } from "react";
-import ReactDOM from "react-dom";
 import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
 import "./slider.scss";
 import move from "./utils/move";
+import usePagination from "./hooks/usePagination";
+import useNavigation from "./hooks/useNavigation";
 
 export interface SlideProps {
   prev: () => void;
   next: () => void;
+  moveTo: (index: number) => void;
 }
 
 export default function useSlider(
@@ -116,7 +117,7 @@ export default function useSlider(
   }, [loop, slideWidth, slidesPerView, speed]);
 
   const moveTo = useCallback(
-    index => {
+    (index: number) => {
       setCurIndex(prev => {
         if (!ref.current) return prev;
 
@@ -158,130 +159,44 @@ export default function useSlider(
     }
   }, [slidesPerView]);
 
-  useEffect(() => {
-    if (!ref.current) return;
-    if (navigation || arrowLeft || arrowRight) {
-      const oldNavigationNode = ref.current.querySelector(
-        ".slider-arrow-container"
-      );
-
-      if (oldNavigationNode) ref.current.removeChild(oldNavigationNode);
-
-      const navigationContainer = document.createElement("div");
-      navigationContainer.classList.add("slider-arrow-container");
-
-      const navigationList = [];
-
-      if (arrowLeft)
-        navigationList.push(
-          cloneElement(arrowLeft, {
-            onClick: prev,
-            className: `${
-              arrowLeft.props.className ? arrowLeft.props.className : ""
-            } slider-arrow-left`
-          })
-        );
-
-      if (arrowRight)
-        navigationList.push(
-          cloneElement(arrowRight, {
-            onClick: next,
-            className: `${
-              arrowRight.props.className ? arrowRight.props.className : ""
-            } slider-arrow-right`
-          })
-        );
-
-      if (navigationList.length) {
-        ReactDOM.render(navigationList, navigationContainer);
-      } else {
-        const navigationLeft = document.createElement("div");
-        navigationLeft.classList.add("slider-arrow-left");
-        navigationLeft.classList.add("slider-arrow-left__default");
-
-        const navigationRight = document.createElement("div");
-        navigationRight.classList.add("slider-arrow-right");
-        navigationRight.classList.add("slider-arrow-right__default");
-
-        navigationContainer.appendChild(navigationLeft);
-        navigationContainer.appendChild(navigationRight);
-
-        navigationLeft.addEventListener("click", prev);
-        navigationRight.addEventListener("click", next);
-      }
-
-      ref.current.appendChild(navigationContainer);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prev, next, navigation]);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    if (pagination) {
-      const oldPaginationNode = ref.current.querySelector(
-        ".slider-pagination-container"
-      );
-
-      if (oldPaginationNode) ref.current.removeChild(oldPaginationNode);
-
-      const paginationContainer = document.createElement("div");
-      paginationContainer.classList.add("slider-pagination-container");
-
-      for (
-        let i = 0;
-        i < ref.current.querySelectorAll(".slider-slide").length;
-        i += 1
-      ) {
-        const paginationItem = document.createElement("span");
-        paginationItem.classList.add("slider-pagination-dot");
-        paginationItem.classList.add("slider-pagination-dot__default");
-
-        if (initial === i) paginationItem.classList.add("active");
-
-        paginationItem.addEventListener("click", () => moveTo(i));
-        paginationContainer.appendChild(paginationItem);
-      }
-
-      ref.current.appendChild(paginationContainer);
-    }
-  }, [initial, prev, next, pagination, moveTo]);
-
-  useEffect(() => {
-    if (!ref.current || !pagination) return;
-
-    const paginationContainer = ref.current.querySelector(
-      ".slider-pagination-container"
-    );
-
-    if (!paginationContainer) return;
-
-    for (let i = 0; i < paginationContainer.children.length; i += 1) {
-      const child = paginationContainer.children[i] as HTMLElement;
-
-      if (i === curIndex) {
-        child.classList.add("active");
-      } else {
-        child.classList.remove("active");
-      }
-    }
-  }, [curIndex, pagination]);
-
-  useEvent(
-    ref.current,
+  useEvent({
+    container: ref.current,
     curIndex,
     slideWidth,
-    parentWidth,
     speed,
     setCurIndex,
     loop,
     slidesPerView
-  );
+  });
 
-  useAutoPlay(ref.current, next, duration, autoPlay);
+  useAutoPlay({
+    container: ref.current,
+    cb: next,
+    duration,
+    autoPlay
+  });
+
+  useNavigation({
+    container: ref.current,
+    navigation,
+    prev,
+    next,
+    arrowLeft,
+    arrowRight
+  });
+
+  usePagination({
+    container: ref.current,
+    pagination,
+    curIndex,
+    initial,
+    moveTo
+  });
 
   const slide = {
     prev,
-    next
+    next,
+    moveTo
   };
 
   return [ref, slide];

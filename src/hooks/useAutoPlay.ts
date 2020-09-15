@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function useAutoPlay(
-  container: HTMLDivElement | null,
-  cb: () => void,
-  duration: number,
-  autoPlay: boolean
-): void {
+export default function useAutoPlay(options: {
+  container: HTMLDivElement | null;
+  cb: () => void;
+  duration: number;
+  autoPlay: boolean;
+}): void {
+  const { container, cb, duration, autoPlay } = options;
+
   const timer = useRef(0);
 
   const [pause, setPause] = useState(false);
