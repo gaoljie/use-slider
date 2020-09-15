@@ -24,26 +24,26 @@ jobs:
   build:
     <<: *defaults
     steps:
-#      - checkout
       - attach_workspace:
           at: ~/project
-      - run: yarn build
-      - run: |
-          git config user.email "gaoljie@gmail.com"
-          git config user.name "Jay Gao"
-          yarn add gh-pages -D
-          ./node_modules/.bin/gh-pages -d .docz/dist
       - run: yarn release
 
   deploy:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: ~/project
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
       - run: npm publish
+      - run: yarn build
+      - run: |
+          git config user.email "gaoljie@gmail.com"
+          git config user.name "Jay Gao"
+          yarn add gh-pages -D
+          ./node_modules/.bin/gh-pages -d .docz/dist
 
 workflows:
   version: 2
