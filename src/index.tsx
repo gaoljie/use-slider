@@ -7,7 +7,7 @@ import move from "./utils/move";
 export default function useSlider(
   options: {
     autoPlay?: boolean;
-    autoPlaySpeed?: number;
+    duration?: number;
     slidesPerView?: number;
     speed?: number;
     loop?: boolean;
@@ -16,16 +16,14 @@ export default function useSlider(
   const {
     speed = 300,
     autoPlay = false,
-    autoPlaySpeed = 3000,
+    duration = 3000,
     loop = false,
     slidesPerView = 1
   } = options;
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const container = ref.current;
-
-  const parentWidth = container ? container.clientWidth : 0;
+  const [parentWidth, setParentWidth] = useState(0);
 
   const reqIDRef = useRef(0);
 
@@ -34,14 +32,14 @@ export default function useSlider(
   const [curIndex, setCurIndex] = useState(0);
 
   const prev = useCallback(() => {
-    if (!container) return;
-
-    const childrenNum = container.children.length;
-
     setCurIndex(prev => {
+      if (!ref.current) return prev;
+
       if (!loop && prev === 0) return prev;
 
       let newIndex;
+
+      const childrenNum = ref.current.children.length;
 
       if (prev === 0) {
         newIndex = childrenNum - 1;
@@ -52,7 +50,7 @@ export default function useSlider(
       move({
         slideWidth,
         slidesPerView,
-        container,
+        container: ref.current,
         loop,
         speed,
         leftStart: -prev * slideWidth,
@@ -64,20 +62,22 @@ export default function useSlider(
 
       return newIndex;
     });
-  }, [container, loop, slideWidth, slidesPerView, speed]);
+  }, [loop, slideWidth, slidesPerView, speed]);
 
   const next = useCallback(() => {
-    if (!container) return;
-
-    const childrenNum = container.children.length;
+    if (!ref.current) return;
 
     setCurIndex(prev => {
+      if (!ref.current) return prev;
+
+      const childrenNum = ref.current.children.length;
+
       if (!loop && prev >= childrenNum - slidesPerView) return prev;
 
       move({
         slideWidth,
         slidesPerView,
-        container,
+        container: ref.current,
         loop,
         speed,
         leftStart: -prev * slideWidth,
@@ -89,24 +89,26 @@ export default function useSlider(
 
       return (prev + 1) % childrenNum;
     });
-  }, [container, loop, slideWidth, slidesPerView, speed]);
+  }, [loop, slideWidth, slidesPerView, speed]);
 
   useEffect(() => {
-    if (!container) return;
+    if (!ref.current) return;
 
-    container.classList.add("slider-container");
+    setParentWidth(ref.current.clientWidth);
 
-    for (let i = 0; i < container.children.length; i += 1) {
-      const child = container.children[i] as HTMLElement;
+    ref.current.classList.add("slider-container");
+
+    for (let i = 0; i < ref.current.children.length; i += 1) {
+      const child = ref.current.children[i] as HTMLElement;
 
       child.classList.add("slider-container__slide");
 
       child.style.width = `${(1 / slidesPerView) * 100}%`;
     }
-  }, [container, slidesPerView]);
+  }, [slidesPerView]);
 
   useEvent(
-    container,
+    ref.current,
     curIndex,
     slideWidth,
     parentWidth,
@@ -117,7 +119,7 @@ export default function useSlider(
     slidesPerView
   );
 
-  useAutoPlay(ref, next, autoPlaySpeed, autoPlay);
+  useAutoPlay(ref.current, next, duration, autoPlay);
 
   const slide = {
     prev,

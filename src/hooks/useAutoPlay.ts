@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 export default function useAutoPlay(
   container: HTMLDivElement | null,
   cb: () => void,
-  autoPlaySpeed: number,
+  duration: number,
   autoPlay: boolean
 ): void {
   const timer = useRef(0);
@@ -31,10 +31,10 @@ export default function useAutoPlay(
         if (!pause) {
           cb();
         }
-      }, autoPlaySpeed);
+      }, duration);
     }
     return () => {
       clearInterval(timer.current);
     };
-  }, [pause, autoPlaySpeed, cb, autoPlay]);
+  }, [pause, duration, cb, autoPlay]);
 }
