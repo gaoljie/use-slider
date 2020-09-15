@@ -39,7 +39,7 @@ jobs:
           git config user.name "Jay Gao"
           yarn add gh-pages -D
           ./node_modules/.bin/gh-pages -d .docz/dist
-#      - run: yarn release
+      - run: yarn release
 
   deploy:
     <<: *defaults
@@ -56,6 +56,9 @@ workflows:
   build-deploy:
     jobs:
       - install:
+          branches:
+            ignore:
+              - master
           filters:
             tags:
               only: /^v.*/
