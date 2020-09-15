@@ -6,10 +6,10 @@ import {
   ReactElement,
   useCallback
 } from "react";
-import useAutoPlay from "./hooks/useAutoPlay";
-import useEvent from "./hooks/useEvent";
 import "./slider.scss";
 import move from "./utils/move";
+import useAutoPlay from "./hooks/useAutoPlay";
+import useEvent from "./hooks/useEvent";
 import usePagination from "./hooks/usePagination";
 import useNavigation from "./hooks/useNavigation";
 
