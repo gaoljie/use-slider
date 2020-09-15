@@ -24,6 +24,7 @@ jobs:
   build:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: ~/project
       - run: yarn release
@@ -31,7 +32,6 @@ jobs:
   deploy:
     <<: *defaults
     steps:
-#      - checkout
       - attach_workspace:
           at: ~/project
       - run:
