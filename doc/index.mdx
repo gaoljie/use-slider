@@ -7,43 +7,64 @@ import { Playground } from "docz";
 import useSlider from "../src";
 import "../src/example.scss";
 
-# AutoPlay with custom speed
+# Button
 
 <Playground>
   {() => {
-    const [ref, slide] = useSlider({
-      autoPlay: true,
-      loop: true,
-      duration: 1000
-    });
+    const [ref, slide] = useSlider({ loop: true });
     return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
+      <>
+        <div ref={ref}>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+        </div>
+        <button onClick={() => slide.prev()}>Prev</button>
+        <button onClick={() => slide.next()}>Next</button>
+      </>
     );
   }}
 </Playground>
 
-# AutoPlay
+<!-- # AutoPlay with custom speed -->
 
-<Playground>
-  {() => {
-    const [ref, slide] = useSlider({ autoPlay: true, loop: true });
-    return (
-      <div ref={ref}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-      </div>
-    );
-  }}
-</Playground>
+<!-- <Playground> -->
+<!--   {() => { -->
+<!--     const [ref, slide] = useSlider({ -->
+<!--       autoPlay: true, -->
+<!--       loop: true, -->
+<!--       duration: 1000 -->
+<!--     }); -->
+<!--     return ( -->
+<!--       <div ref={ref}> -->
+<!--         <div>1</div> -->
+<!--         <div>2</div> -->
+<!--         <div>3</div> -->
+<!--         <div>4</div> -->
+<!--         <div>5</div> -->
+<!--       </div> -->
+<!--     ); -->
+<!--   }} -->
+<!-- </Playground> -->
+
+<!-- # AutoPlay -->
+
+<!-- <Playground> -->
+<!--   {() => { -->
+<!--     const [ref, slide] = useSlider({ autoPlay: true, loop: true }); -->
+<!--     return ( -->
+<!--       <div ref={ref}> -->
+<!--         <div>1</div> -->
+<!--         <div>2</div> -->
+<!--         <div>3</div> -->
+<!--         <div>4</div> -->
+<!--         <div>5</div> -->
+<!--       </div> -->
+<!--     ); -->
+<!--   }} -->
+<!-- </Playground> -->
 
 # Button
 

@@ -25,8 +25,6 @@ export default function useSlider(
 
   const [parentWidth, setParentWidth] = useState(0);
 
-  const reqIDRef = useRef(0);
-
   const slideWidth = parentWidth / slidesPerView;
 
   const [curIndex, setCurIndex] = useState(0);
@@ -47,6 +45,10 @@ export default function useSlider(
         newIndex = prev - 1;
       }
 
+      let updatedIndex = prev;
+
+      while (updatedIndex <= 0) updatedIndex += childrenNum;
+
       move({
         slideWidth,
         slidesPerView,
@@ -55,7 +57,7 @@ export default function useSlider(
         speed,
         leftStart: -prev * slideWidth,
         deltaX: slideWidth,
-        curIndex: prev,
+        curIndex: updatedIndex,
         rightStart: (childrenNum - prev) * slideWidth,
         animate: true
       });
@@ -65,8 +67,6 @@ export default function useSlider(
   }, [loop, slideWidth, slidesPerView, speed]);
 
   const next = useCallback(() => {
-    if (!ref.current) return;
-
     setCurIndex(prev => {
       if (!ref.current) return prev;
 
@@ -112,7 +112,6 @@ export default function useSlider(
     curIndex,
     slideWidth,
     parentWidth,
-    reqIDRef.current,
     speed,
     setCurIndex,
     loop,

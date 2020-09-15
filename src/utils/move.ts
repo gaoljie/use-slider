@@ -1,5 +1,3 @@
-let reqID = 0;
-
 export default function move(options: {
   slidesPerView: number;
   slideWidth: number;
@@ -30,8 +28,6 @@ export default function move(options: {
   let startTime: number;
 
   const childrenNum = container.children.length;
-
-  window.cancelAnimationFrame(reqID);
 
   function moveAnimation(timestamp: number) {
     if (!startTime) startTime = timestamp;
@@ -76,9 +72,9 @@ export default function move(options: {
     }
 
     if (elapsed < 1) {
-      reqID = window.requestAnimationFrame(moveAnimation);
+      window.requestAnimationFrame(moveAnimation);
     }
   }
 
-  reqID = window.requestAnimationFrame(moveAnimation);
+  window.requestAnimationFrame(moveAnimation);
 }

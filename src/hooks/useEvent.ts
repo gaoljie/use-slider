@@ -11,7 +11,6 @@ export default function useEvent(
   curIndex: number,
   slideWidth: number,
   parentWidth: number,
-  reqID: number,
   speed: number,
   setCurIndex: (value: SetStateAction<number>) => void,
   loop: boolean,
