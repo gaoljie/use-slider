@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, RefObject } from "react";
 import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
 import "./slider.scss";
+import move from "./utils/move";
 
 export default function useSlider(
   options: {
@@ -50,44 +51,27 @@ export default function useSlider(
 
     if (!loop && curIndex === 0) return;
 
-    window.cancelAnimationFrame(reqIDRef.current);
+    setCurIndex(prev => {
+      let newIndex;
 
-    setCurIndex(prevIndex => {
-      const newIndex = prevIndex === 0 ? childrenNum - 1 : prevIndex - 1;
-      let startTime: number;
-      function movePrev(timestamp: number) {
-        if (!startTime) startTime = timestamp;
-
-        const elapsed = Math.min((timestamp - startTime) / speed, 1);
-
-        const transformStrLeft = `translateX(-${
-          (newIndex + 1) * slideWidth - elapsed * slideWidth
-        }px)`;
-
-        const transformStrRight = `translateX(${
-          (childrenNum - newIndex - 1) * slideWidth + elapsed * slideWidth
-        }px)`;
-
-        for (let i = 0; i < childrenNum; i += 1) {
-          const child = container.children[i] as HTMLElement;
-
-          if (loop) {
-            if (i >= newIndex) {
-              child.style.transform = transformStrLeft;
-            } else {
-              child.style.transform = transformStrRight;
-            }
-          } else {
-            child.style.transform = transformStrLeft;
-          }
-        }
-
-        if (elapsed < 1) {
-          reqIDRef.current = window.requestAnimationFrame(movePrev);
-        }
+      if (prev === 0) {
+        newIndex = childrenNum - 1;
+      } else {
+        newIndex = prev - 1;
       }
 
-      reqIDRef.current = window.requestAnimationFrame(movePrev);
+      move({
+        slideWidth,
+        slidesPerView,
+        container,
+        loop,
+        speed,
+        leftStart: -prev * slideWidth,
+        deltaX: slideWidth,
+        curIndex: prev,
+        rightStart: (childrenNum - prev) * slideWidth,
+        animate: true
+      });
 
       return newIndex;
     });
@@ -101,46 +85,21 @@ export default function useSlider(
 
     if (!loop && curIndex >= childrenNum - slidesPerView) return;
 
-    window.cancelAnimationFrame(reqIDRef.current);
+    setCurIndex(prev => {
+      move({
+        slideWidth,
+        slidesPerView,
+        container,
+        loop,
+        speed,
+        leftStart: -prev * slideWidth,
+        deltaX: -slideWidth,
+        curIndex: prev,
+        rightStart: (childrenNum - prev) * slideWidth,
+        animate: true
+      });
 
-    setCurIndex(prevIndex => {
-      const newIndex = (prevIndex + 1) % childrenNum;
-      let startTime: number;
-      function moveNext(timestamp: number) {
-        if (!startTime) startTime = timestamp;
-
-        const elapsed = Math.min((timestamp - startTime) / speed, 1);
-
-        const transformStrLeft = `translateX(-${
-          prevIndex * slideWidth + slideWidth * elapsed
-        }px)`;
-
-        const transformStrRight = `translateX(${
-          (childrenNum - prevIndex) * slideWidth - slideWidth * elapsed
-        }px)`;
-
-        for (let i = 0; i < childrenNum; i += 1) {
-          const child = container.children[i] as HTMLElement;
-
-          if (loop) {
-            if (i >= prevIndex) {
-              child.style.transform = transformStrLeft;
-            } else {
-              child.style.transform = transformStrRight;
-            }
-          } else {
-            child.style.transform = transformStrLeft;
-          }
-        }
-
-        if (elapsed < 1) {
-          reqIDRef.current = window.requestAnimationFrame(moveNext);
-        }
-      }
-
-      reqIDRef.current = window.requestAnimationFrame(moveNext);
-
-      return newIndex;
+      return (prev + 1) % childrenNum;
     });
   };
 

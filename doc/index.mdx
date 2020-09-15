@@ -7,17 +7,39 @@ import { Playground } from "docz";
 import useSlider from "../src";
 import "../src/example.scss";
 
+# Button
+
+<Playground>
+  {() => {
+    const [ref, slide] = useSlider();
+    return (
+      <>
+        <div ref={ref}>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+        </div>
+        <button onClick={() => slide.prev()}>Prev</button>
+        <button onClick={() => slide.next()}>Next</button>
+      </>
+    );
+  }}
+</Playground>
+
 # Multiple Slide With Loop
 
 <Playground>
   {() => {
     const [ref, slide] = useSlider({ slidesPerView: 3, loop: true });
-    const list = [1, 2, 3, 4];
     return (
       <div ref={ref}>
-        {list.map(item => (
-          <div key={item}>{item}</div>
-        ))}
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
       </div>
     );
   }}
@@ -28,12 +50,13 @@ import "../src/example.scss";
 <Playground>
   {() => {
     const [ref, slide] = useSlider({ slidesPerView: 3 });
-    const list = [1, 2, 3, 4, 5];
     return (
       <div ref={ref}>
-        {list.map(item => (
-          <div key={item}>{item}</div>
-        ))}
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
       </div>
     );
   }}
@@ -44,12 +67,13 @@ import "../src/example.scss";
 <Playground>
   {() => {
     const [ref, slide] = useSlider();
-    const list = [1, 2, 3, 4, 5];
     return (
       <div ref={ref}>
-        {list.map(item => (
-          <div key={item}>{item}</div>
-        ))}
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
       </div>
     );
   }}
@@ -62,12 +86,13 @@ import "../src/example.scss";
     const [ref, slide] = useSlider({
       loop: true
     });
-    const list = [1, 2, 3, 4, 5];
     return (
       <div ref={ref}>
-        {list.map(item => (
-          <div key={item}>{item}</div>
-        ))}
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
       </div>
     );
   }}
