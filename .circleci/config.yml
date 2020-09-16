@@ -23,6 +23,7 @@ jobs:
       - run: |
           git config user.email "gaoljie@gmail.com"
           git config user.name "Jay Gao"
+          git push --set-upstream origin development
           yarn release
 
   build:
