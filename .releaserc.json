@@ -1,5 +1,6 @@
 {
   "release": {
     "branches": ["master", "release-it"]
-  }
+  },
+  "plugins": ["@semantic-release/changelog"]
 }
