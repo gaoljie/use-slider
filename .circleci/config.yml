@@ -20,11 +20,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-      - run: |
-          git config user.email "gaoljie@gmail.com"
-          git config user.name "Jay Gao"
-          git push --set-upstream origin development
-          yarn release
 
   build:
     <<: *defaults
@@ -32,6 +27,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
+      - run: git push --set-upstream origin development
       - run: yarn release
 
   deploy:
