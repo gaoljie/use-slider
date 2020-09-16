@@ -24,7 +24,7 @@
     "build": "docz build",
     "serve": "docz build && docz serve",
     "cm": "cz",
-    "release": "HUSKY_SKIP_HOOKS=1 release-it --ci --no-requireUpstream",
+    "release": "HUSKY_SKIP_HOOKS=1 release-it --ci",
     "prepublishOnly": "rollup --config"
   },
   "devDependencies": {

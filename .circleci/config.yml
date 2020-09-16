@@ -27,8 +27,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-      - run: git push --set-upstream origin development
-      - run: yarn release
+      - run: npx semantic-release
 
   deploy:
     <<: *defaults
