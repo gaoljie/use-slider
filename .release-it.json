@@ -1,0 +1,19 @@
+{
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}"
+  },
+  "git": {
+    "tagName": "v${version}",
+    "commitMessage": "Release v${version} [ci skip]"
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}

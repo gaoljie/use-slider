@@ -1,0 +1,204 @@
+---
+name: Getting Started
+route: /
+---
+
+import { Playground } from "docz";
+import useSlider from "../src";
+import "../src/example.scss";
+
+# Basic
+
+<Playground>
+  {() => {
+    const [ref] = useSlider();
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Multiple Slide
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ slidesPerView: 3 });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Loop
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({
+      loop: true
+    });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Multiple Slide With Loop
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ slidesPerView: 3, loop: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Custom Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: <span>X</span> });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Custom Pagination with index
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: index => <span>{index + 1}</span> });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Navigation
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ loop: true, navigation: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Custom Navigation
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({
+      arrowLeft: <span style={{ fontSize: "50px" }}> {"<"} </span>,
+      arrowRight: <span style={{ fontSize: "50px" }}> {">"} </span>
+    });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+<!-- # AutoPlay with custom speed -->
+
+<!-- <Playground> -->
+<!--   {() => { -->
+<!--     const [ref] = useSlider({ -->
+<!--       autoPlay: true, -->
+<!--       loop: true, -->
+<!--       duration: 1000 -->
+<!--     }); -->
+<!--     return ( -->
+<!--       <div ref={ref}> -->
+<!--         <div>1</div> -->
+<!--         <div>2</div> -->
+<!--         <div>3</div> -->
+<!--         <div>4</div> -->
+<!--         <div>5</div> -->
+<!--       </div> -->
+<!--     ); -->
+<!--   }} -->
+<!-- </Playground> -->
+
+<!-- # AutoPlay -->
+
+<!-- <Playground> -->
+<!--   {() => { -->
+<!--     const [ref] = useSlider({ autoPlay: true, loop: true }); -->
+<!--     return ( -->
+<!--       <div ref={ref}> -->
+<!--         <div>1</div> -->
+<!--         <div>2</div> -->
+<!--         <div>3</div> -->
+<!--         <div>4</div> -->
+<!--         <div>5</div> -->
+<!--       </div> -->
+<!--     ); -->
+<!--   }} -->
+<!-- </Playground> -->
