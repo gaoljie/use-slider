@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/gaoljie/use-slider/compare/v1.1.0...v1.1.1) (2020-09-17)
+
+
+### Bug Fixes
+
+* update dot style ([c936007](https://github.com/gaoljie/use-slider/commit/c9360072a07a7a7b77a2b7f1622544aa6a9817fd))
+
 # [1.1.0](https://github.com/gaoljie/use-slider/compare/v1.0.0...v1.1.0) (2020-09-17)
 
 
