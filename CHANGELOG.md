@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gaoljie/use-slider/compare/v1.1.1...v1.2.0) (2020-09-17)
+
+
+### Features
+
+* add responsive option ([4e78b04](https://github.com/gaoljie/use-slider/commit/4e78b047899a68c799a3f1b9568fb74bd991294d))
+
 ## [1.1.1](https://github.com/gaoljie/use-slider/compare/v1.1.0...v1.1.1) (2020-09-17)
 
 
