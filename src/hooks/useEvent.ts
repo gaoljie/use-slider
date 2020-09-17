@@ -6,8 +6,8 @@ function getClientX(e: MouseEvent | TouchEvent) {
   return "touches" in e ? e.changedTouches[0].clientX : e.clientX;
 }
 
-export default function useEvent(options: {
-  container: HTMLDivElement | null;
+export default function useEvent<T extends HTMLElement>(options: {
+  container: T | null;
   curIndex: number;
   slideWidth: number;
   speed: number;

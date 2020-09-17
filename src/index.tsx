@@ -12,6 +12,7 @@ import useAutoPlay from "./hooks/useAutoPlay";
 import useEvent from "./hooks/useEvent";
 import usePagination from "./hooks/usePagination";
 import useNavigation from "./hooks/useNavigation";
+import useResponsive from "./hooks/useResponsive";
 
 export interface SlideProps {
   prev: () => void;
@@ -19,21 +20,35 @@ export interface SlideProps {
   moveTo: (index: number) => void;
 }
 
-export default function useSlider(
-  options: {
-    autoPlay?: boolean;
-    initial?: number;
-    duration?: number;
-    slidesPerView?: number;
-    speed?: number;
-    loop?: boolean;
-    pagination?: boolean;
-    navigation?: boolean;
-    arrowLeft?: ReactElement;
-    arrowRight?: ReactElement;
-  } = {}
-): [RefObject<HTMLDivElement>, SlideProps] {
-  const [optionsSnapshot] = useState(options);
+interface RawOptionProps {
+  autoPlay?: boolean;
+  initial?: number;
+  duration?: number;
+  slidesPerView?: number;
+  speed?: number;
+  loop?: boolean;
+  pagination?: boolean;
+  navigation?: boolean;
+  arrowLeft?: ReactElement;
+  arrowRight?: ReactElement;
+}
+
+export type OptionProps = RawOptionProps & {
+  responsive?: [number, RawOptionProps][];
+};
+
+export default function useSlider<T extends HTMLElement>(
+  options: OptionProps = {}
+): [RefObject<T>, SlideProps] {
+  const [optionsSnapshot] = useState({
+    ...options,
+    responsive: options.responsive
+      ? options.responsive.sort((a, b) => a[0] - b[0])
+      : options.responsive
+  });
+
+  const realOptions = useResponsive(optionsSnapshot);
+
   const {
     speed = 300,
     initial = 0,
@@ -45,9 +60,9 @@ export default function useSlider(
     navigation = false,
     arrowLeft,
     arrowRight
-  } = optionsSnapshot;
+  } = realOptions;
 
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<T>(null);
 
   const [parentWidth, setParentWidth] = useState(0);
 

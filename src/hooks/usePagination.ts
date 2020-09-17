@@ -1,8 +1,8 @@
 import { cloneElement, ReactElement, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-export default function usePagination(options: {
-  container: HTMLDivElement | null;
+export default function usePagination<T extends HTMLElement>(options: {
+  container: T | null;
   pagination: boolean | ((index: number) => ReactElement) | ReactElement;
   curIndex: number;
   initial: number;

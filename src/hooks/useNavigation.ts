@@ -1,8 +1,8 @@
 import { cloneElement, ReactElement, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-export default function useNavigation(options: {
-  container: HTMLDivElement | null;
+export default function useNavigation<T extends HTMLElement>(options: {
+  container: T | null;
   navigation: boolean;
   prev: () => void;
   next: () => void;

@@ -1,7 +1,7 @@
-export default function move(options: {
+export default function move<T extends HTMLElement>(options: {
   slidesPerView: number;
   slideWidth: number;
-  container: HTMLDivElement;
+  container: T;
   animate?: boolean;
   speed: number;
   deltaX: number;

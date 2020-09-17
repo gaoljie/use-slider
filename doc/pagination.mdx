@@ -1,0 +1,59 @@
+---
+name: Pagination
+route: /pagination
+---
+
+import { Playground } from "docz";
+import useSlider from "../src";
+import "../src/example.scss";
+
+# Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Custom Pagination
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: <span>X</span> });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
+
+# Custom Pagination with index
+
+<Playground>
+  {() => {
+    const [ref] = useSlider({ pagination: index => <span>{index + 1}</span> });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>

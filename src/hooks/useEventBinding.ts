@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 
-export default function useEventBinding<K extends keyof HTMLElementEventMap>(
-  container: HTMLDivElement | null,
+export default function useEventBinding<
+  T extends HTMLElement,
+  K extends keyof HTMLElementEventMap
+>(
+  container: T | null,
   type: K,
-  callback: (this: HTMLDivElement, ev: HTMLElementEventMap[K]) => any
-): (this: HTMLDivElement, ev: HTMLElementEventMap[K]) => any {
+  callback: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any
+): (this: HTMLElement, ev: HTMLElementEventMap[K]) => any {
   useEffect(() => {
     if (!container) return;
     container.addEventListener(type, callback);

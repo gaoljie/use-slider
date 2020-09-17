@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function useAutoPlay(options: {
-  container: HTMLDivElement | null;
+export default function useAutoPlay<T extends HTMLElement>(options: {
+  container: T | null;
   cb: () => void;
   duration: number;
   autoPlay: boolean;
