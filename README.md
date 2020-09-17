@@ -11,7 +11,7 @@
 #### include css
 
 ```js
-import "use-slider/slider.min.css";
+import "use-slider/lib/slider.min.css";
 ```
 
 ### Basic Usage
