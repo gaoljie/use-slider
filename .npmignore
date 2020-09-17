@@ -5,6 +5,8 @@ node_modules/
 src/
 .eslintrc.js
 .gitignore
+.releaserc.json
+CHANGELOG.md
 .npmignore
 doczrc.js
 gatsby-config.js
