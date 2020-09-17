@@ -166,40 +166,40 @@ import "../src/example.scss";
   }}
 </Playground>
 
-<!-- # AutoPlay with custom speed -->
+# AutoPlay with custom speed
 
-<!-- <Playground> -->
-<!--   {() => { -->
-<!--     const [ref] = useSlider({ -->
-<!--       autoPlay: true, -->
-<!--       loop: true, -->
-<!--       duration: 1000 -->
-<!--     }); -->
-<!--     return ( -->
-<!--       <div ref={ref}> -->
-<!--         <div>1</div> -->
-<!--         <div>2</div> -->
-<!--         <div>3</div> -->
-<!--         <div>4</div> -->
-<!--         <div>5</div> -->
-<!--       </div> -->
-<!--     ); -->
-<!--   }} -->
-<!-- </Playground> -->
+<Playground>
+  {() => {
+    const [ref] = useSlider({
+      autoPlay: true,
+      loop: true,
+      duration: 1000
+    });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
 
-<!-- # AutoPlay -->
+# AutoPlay
 
-<!-- <Playground> -->
-<!--   {() => { -->
-<!--     const [ref] = useSlider({ autoPlay: true, loop: true }); -->
-<!--     return ( -->
-<!--       <div ref={ref}> -->
-<!--         <div>1</div> -->
-<!--         <div>2</div> -->
-<!--         <div>3</div> -->
-<!--         <div>4</div> -->
-<!--         <div>5</div> -->
-<!--       </div> -->
-<!--     ); -->
-<!--   }} -->
-<!-- </Playground> -->
+<Playground>
+  {() => {
+    const [ref] = useSlider({ autoPlay: true, loop: true });
+    return (
+      <div ref={ref}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+    );
+  }}
+</Playground>
