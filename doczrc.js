@@ -1,15 +1,16 @@
 export default {
   typescript: true,
   base: "/use-slider",
-  ignore: ["CHANGELOG.md"],
+  ignore: ["CHANGELOG.md", "README.md"],
   menu: [
-    "Getting Started",
+    "Get Started",
     "Basic",
     "AutoPlay",
     "Multiple Slide",
     "Loop",
     "Pagination",
     "Navigation",
-    "Responsive"
+    "Responsive",
+    "Dynamic Render"
   ]
 };

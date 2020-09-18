@@ -1,11 +1,4 @@
-import {
-  useRef,
-  useEffect,
-  useState,
-  RefObject,
-  ReactElement,
-  useCallback
-} from "react";
+import { useState, ReactElement, useCallback } from "react";
 import "./slider.scss";
 import move from "./utils/move";
 import useAutoPlay from "./hooks/useAutoPlay";
@@ -13,6 +6,7 @@ import useEvent from "./hooks/useEvent";
 import usePagination from "./hooks/usePagination";
 import useNavigation from "./hooks/useNavigation";
 import useResponsive from "./hooks/useResponsive";
+import useInit from "./hooks/useInit";
 
 export interface SlideProps {
   prev: () => void;
@@ -39,7 +33,7 @@ export type OptionProps = RawOptionProps & {
 
 export default function useSlider<T extends HTMLElement>(
   options: OptionProps = {}
-): [RefObject<T>, SlideProps] {
+): [(instance: T) => void, SlideProps] {
   const [optionsSnapshot] = useState({
     ...options,
     responsive: options.responsive
@@ -62,7 +56,11 @@ export default function useSlider<T extends HTMLElement>(
     arrowRight
   } = realOptions;
 
-  const ref = useRef<T>(null);
+  const [container, setContainer] = useState<T | null>(null);
+
+  const callbackRef = useCallback((instance: T) => {
+    setContainer(instance);
+  }, []);
 
   const [parentWidth, setParentWidth] = useState(0);
 
@@ -72,13 +70,13 @@ export default function useSlider<T extends HTMLElement>(
 
   const prev = useCallback(() => {
     setCurIndex(prev => {
-      if (!ref.current) return prev;
+      if (!container) return prev;
 
       if (!loop && prev === 0) return prev;
 
       let newIndex;
 
-      const childrenNum = ref.current.querySelectorAll(".slider-slide").length;
+      const childrenNum = container.querySelectorAll(".slider-slide").length;
 
       if (prev === 0) {
         newIndex = childrenNum - 1;
@@ -93,7 +91,7 @@ export default function useSlider<T extends HTMLElement>(
       move({
         slideWidth,
         slidesPerView,
-        container: ref.current,
+        container,
         loop,
         speed,
         leftStart: -prev * slideWidth,
@@ -105,20 +103,20 @@ export default function useSlider<T extends HTMLElement>(
 
       return newIndex;
     });
-  }, [loop, slideWidth, slidesPerView, speed]);
+  }, [container, loop, slideWidth, slidesPerView, speed]);
 
   const next = useCallback(() => {
     setCurIndex(prev => {
-      if (!ref.current) return prev;
+      if (!container) return prev;
 
-      const childrenNum = ref.current.querySelectorAll(".slider-slide").length;
+      const childrenNum = container.querySelectorAll(".slider-slide").length;
 
       if (!loop && prev >= childrenNum - slidesPerView) return prev;
 
       move({
         slideWidth,
         slidesPerView,
-        container: ref.current,
+        container,
         loop,
         speed,
         leftStart: -prev * slideWidth,
@@ -130,20 +128,19 @@ export default function useSlider<T extends HTMLElement>(
 
       return (prev + 1) % childrenNum;
     });
-  }, [loop, slideWidth, slidesPerView, speed]);
+  }, [container, loop, slideWidth, slidesPerView, speed]);
 
   const moveTo = useCallback(
     (index: number) => {
       setCurIndex(prev => {
-        if (!ref.current) return prev;
+        if (!container) return prev;
 
-        const childrenNum = ref.current.querySelectorAll(".slider-slide")
-          .length;
+        const childrenNum = container.querySelectorAll(".slider-slide").length;
 
         move({
           slideWidth,
           slidesPerView,
-          container: ref.current,
+          container,
           loop,
           speed,
           leftStart: -prev * slideWidth,
@@ -156,27 +153,18 @@ export default function useSlider<T extends HTMLElement>(
         return index;
       });
     },
-    [loop, slideWidth, slidesPerView, speed]
+    [container, loop, slideWidth, slidesPerView, speed]
   );
 
-  useEffect(() => {
-    if (!ref.current) return;
-
-    setParentWidth(ref.current.clientWidth);
-
-    ref.current.classList.add("slider-container");
-
-    for (let i = 0; i < ref.current.children.length; i += 1) {
-      const child = ref.current.children[i] as HTMLElement;
-
-      child.classList.add("slider-slide");
-
-      child.style.width = `${(1 / slidesPerView) * 100}%`;
-    }
-  }, [slidesPerView]);
+  useInit({
+    container,
+    setParentWidth,
+    setCurIndex,
+    slidesPerView
+  });
 
   useEvent({
-    container: ref.current,
+    container,
     curIndex,
     slideWidth,
     speed,
@@ -186,14 +174,14 @@ export default function useSlider<T extends HTMLElement>(
   });
 
   useAutoPlay({
-    container: ref.current,
+    container,
     cb: next,
     duration,
     autoPlay
   });
 
   useNavigation({
-    container: ref.current,
+    container,
     navigation,
     prev,
     next,
@@ -202,7 +190,7 @@ export default function useSlider<T extends HTMLElement>(
   });
 
   usePagination({
-    container: ref.current,
+    container,
     pagination,
     curIndex,
     initial,
@@ -215,5 +203,5 @@ export default function useSlider<T extends HTMLElement>(
     moveTo
   };
 
-  return [ref, slide];
+  return [callbackRef, slide];
 }
