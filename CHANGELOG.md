@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/gaoljie/use-slider/compare/v1.2.0...v1.3.0) (2020-09-29)
+
+
+### Features
+
+* add dynamic render ([eefbc35](https://github.com/gaoljie/use-slider/commit/eefbc35c4d9fc05e7f694f57676899b0131cecc7))
+
 # [1.2.0](https://github.com/gaoljie/use-slider/compare/v1.1.1...v1.2.0) (2020-09-17)
 
 
