@@ -9,7 +9,6 @@ function getClientX(e: MouseEvent | TouchEvent) {
 export default function useEvent<T extends HTMLElement>(options: {
   container: T | null;
   curIndex: number;
-  slideWidth: number;
   speed: number;
   setCurIndex: (value: SetStateAction<number>) => void;
   loop: boolean;
@@ -18,12 +17,13 @@ export default function useEvent<T extends HTMLElement>(options: {
   const {
     container,
     curIndex,
-    slideWidth,
     speed,
     setCurIndex,
     loop,
     slidesPerView
   } = options;
+
+  const slideWidth = container ? container.clientWidth / slidesPerView : 0;
 
   const [startClientX, setStartClientX] = useState<number | null>(null);
 

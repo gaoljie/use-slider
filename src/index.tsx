@@ -62,10 +62,6 @@ export default function useSlider<T extends HTMLElement>(
     setContainer(instance);
   }, []);
 
-  const [parentWidth, setParentWidth] = useState(0);
-
-  const slideWidth = parentWidth / slidesPerView;
-
   const [curIndex, setCurIndex] = useState(initial);
 
   const prev = useCallback(() => {
@@ -73,6 +69,8 @@ export default function useSlider<T extends HTMLElement>(
       if (!container) return prev;
 
       if (!loop && prev === 0) return prev;
+
+      const slideWidth = container.clientWidth / slidesPerView;
 
       let newIndex;
 
@@ -103,7 +101,7 @@ export default function useSlider<T extends HTMLElement>(
 
       return newIndex;
     });
-  }, [container, loop, slideWidth, slidesPerView, speed]);
+  }, [container, loop, slidesPerView, speed]);
 
   const next = useCallback(() => {
     setCurIndex(prev => {
@@ -112,6 +110,8 @@ export default function useSlider<T extends HTMLElement>(
       const childrenNum = container.querySelectorAll(".slider-slide").length;
 
       if (!loop && prev >= childrenNum - slidesPerView) return prev;
+
+      const slideWidth = container.clientWidth / slidesPerView;
 
       move({
         slideWidth,
@@ -128,7 +128,7 @@ export default function useSlider<T extends HTMLElement>(
 
       return (prev + 1) % childrenNum;
     });
-  }, [container, loop, slideWidth, slidesPerView, speed]);
+  }, [container, loop, slidesPerView, speed]);
 
   const moveTo = useCallback(
     (index: number) => {
@@ -136,6 +136,8 @@ export default function useSlider<T extends HTMLElement>(
         if (!container) return prev;
 
         const childrenNum = container.querySelectorAll(".slider-slide").length;
+
+        const slideWidth = container.clientWidth / slidesPerView;
 
         move({
           slideWidth,
@@ -153,12 +155,11 @@ export default function useSlider<T extends HTMLElement>(
         return index;
       });
     },
-    [container, loop, slideWidth, slidesPerView, speed]
+    [container, loop, slidesPerView, speed]
   );
 
   useInit({
     container,
-    setParentWidth,
     setCurIndex,
     slidesPerView
   });
@@ -166,7 +167,6 @@ export default function useSlider<T extends HTMLElement>(
   useEvent({
     container,
     curIndex,
-    slideWidth,
     speed,
     setCurIndex,
     loop,
@@ -193,7 +193,6 @@ export default function useSlider<T extends HTMLElement>(
     container,
     pagination,
     curIndex,
-    initial,
     moveTo
   });
 

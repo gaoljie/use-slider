@@ -6,6 +6,12 @@ function init<T extends HTMLElement>(container: T, slidesPerView: number) {
   for (let i = 0; i < container.children.length; i += 1) {
     const child = container.children[i] as HTMLElement;
 
+    if (
+      child.classList.contains("slider-pagination-container") ||
+      child.classList.contains("slider-navigation-container")
+    )
+      continue;
+
     child.classList.add("slider-slide");
 
     child.style.width = `${(1 / slidesPerView) * 100}%`;
@@ -15,24 +21,26 @@ function init<T extends HTMLElement>(container: T, slidesPerView: number) {
 export default function useInit<T extends HTMLElement>(options: {
   container: T | null;
   setCurIndex: (value: SetStateAction<number>) => void;
-  setParentWidth: (value: SetStateAction<number>) => void;
   slidesPerView: number;
-}) {
-  const { container, setParentWidth, setCurIndex, slidesPerView } = options;
+}): void {
+  const { container, setCurIndex, slidesPerView } = options;
 
   useEffect(() => {
     if (!container) return;
     setCurIndex(0);
-    setParentWidth(container.clientWidth);
 
     const observer = new MutationObserver(() => {
       init(container, slidesPerView);
     });
 
     observer.observe(container, {
-      childList: true
+      childList: true,
+      attributes: false,
+      subtree: false
     });
 
     init(container, slidesPerView);
-  }, [setCurIndex, setParentWidth, container, slidesPerView]);
+
+    return () => observer.disconnect();
+  }, [setCurIndex, container, slidesPerView]);
 }

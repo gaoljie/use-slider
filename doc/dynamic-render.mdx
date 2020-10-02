@@ -37,7 +37,7 @@ import "../src/example.scss";
 <Playground>
   {() => {
     const [list, setList] = useState([1, 2, 3, 4, 5]);
-    const [ref] = useSlider();
+    const [ref] = useSlider({ navigation: true });
     return (
       <>
         <button onClick={() => setList(prev => [...prev, prev.length + 1])}>
