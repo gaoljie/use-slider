@@ -11,7 +11,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({ autoPlay: true, loop: true });
+    const { ref } = useSlider({ autoPlay: true, loop: true });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -28,7 +28,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({
+    const { ref } = useSlider({
       autoPlay: true,
       loop: true,
       duration: 1000

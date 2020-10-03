@@ -21,7 +21,7 @@ import React from "react";
 import useSlider from "use-slider";
 
 const App = () => {
-  const [ref] = useSlider();
+  const { ref } = useSlider();
   const list = [1, 2, 3, 4, 5];
   return (
     <div ref={ref}>

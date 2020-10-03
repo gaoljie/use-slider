@@ -11,7 +11,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({ pagination: true });
+    const { ref } = useSlider({ pagination: true });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -28,7 +28,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({ pagination: <span>X</span> });
+    const { ref } = useSlider({ pagination: <span>X</span> });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -45,7 +45,9 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({ pagination: index => <span>{index + 1}</span> });
+    const { ref } = useSlider({
+      pagination: index => <span>{index + 1}</span>
+    });
     return (
       <div ref={ref}>
         <div>1</div>

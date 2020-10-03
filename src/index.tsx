@@ -8,7 +8,8 @@ import useNavigation from "./hooks/useNavigation";
 import useResponsive from "./hooks/useResponsive";
 import useInit from "./hooks/useInit";
 
-export interface SlideProps {
+export interface SlideProps<T> {
+  ref: (instance: T) => void;
   prev: () => void;
   next: () => void;
   moveTo: (index: number) => void;
@@ -33,7 +34,7 @@ export type OptionProps = RawOptionProps & {
 
 export default function useSlider<T extends HTMLElement>(
   options: OptionProps = {}
-): [(instance: T) => void, SlideProps] {
+): SlideProps<T> {
   const [optionsSnapshot] = useState({
     ...options,
     responsive: options.responsive
@@ -197,10 +198,11 @@ export default function useSlider<T extends HTMLElement>(
   });
 
   const slide = {
+    ref: callbackRef,
     prev,
     next,
     moveTo
   };
 
-  return [callbackRef, slide];
+  return slide;
 }

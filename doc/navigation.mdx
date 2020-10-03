@@ -11,7 +11,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({ loop: true, navigation: true });
+    const { ref } = useSlider({ loop: true, navigation: true });
     return (
       <div ref={ref}>
         <div>1</div>
@@ -28,7 +28,7 @@ import "../src/example.scss";
 
 <Playground>
   {() => {
-    const [ref] = useSlider({
+    const { ref } = useSlider({
       arrowLeft: <span style={{ fontSize: "50px" }}> {"<"} </span>,
       arrowRight: <span style={{ fontSize: "50px" }}> {">"} </span>
     });
