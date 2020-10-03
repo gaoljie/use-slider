@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/gaoljie/use-slider/compare/v1.3.0...v1.3.1) (2020-10-03)
+
+
+### Bug Fixes
+
+* remove slideWidth var ([081af21](https://github.com/gaoljie/use-slider/commit/081af219b133d54f49187ed4897361be57170a13))
+
 # [1.3.0](https://github.com/gaoljie/use-slider/compare/v1.2.0...v1.3.0) (2020-09-29)
 
 
