@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gaoljie/use-slider/compare/v1.3.1...v1.4.0) (2020-10-03)
+
+
+### Features
+
+* change return type from array to object ([e24dbd2](https://github.com/gaoljie/use-slider/commit/e24dbd20dec40898297c14ae46d1abb7d037ae2a))
+
 ## [1.3.1](https://github.com/gaoljie/use-slider/compare/v1.3.0...v1.3.1) (2020-10-03)
 
 
