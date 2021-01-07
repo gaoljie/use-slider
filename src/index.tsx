@@ -1,4 +1,4 @@
-import { useState, ReactElement, useCallback } from "react";
+import { useState, ReactElement, useCallback, useEffect } from "react";
 import "./slider.scss";
 import move from "./utils/move";
 import useAutoPlay from "./hooks/useAutoPlay";
@@ -7,6 +7,7 @@ import usePagination from "./hooks/usePagination";
 import useNavigation from "./hooks/useNavigation";
 import useResponsive from "./hooks/useResponsive";
 import useInit from "./hooks/useInit";
+import useWindowSize from "./hooks/useWindowSize";
 
 export interface SlideProps<T> {
   ref: (instance: T) => void;
@@ -64,6 +65,8 @@ export default function useSlider<T extends HTMLElement>(
   }, []);
 
   const [curIndex, setCurIndex] = useState(initial);
+
+  const { width: windowWidth } = useWindowSize();
 
   const prev = useCallback(() => {
     setCurIndex(prev => {
@@ -158,6 +161,11 @@ export default function useSlider<T extends HTMLElement>(
     },
     [container, loop, slidesPerView, speed]
   );
+
+  useEffect(() => {
+    moveTo(curIndex);
+    // eslint-disable-next-line
+  }, [windowWidth]);
 
   useInit({
     container,
