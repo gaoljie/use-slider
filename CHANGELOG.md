@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/gaoljie/use-slider/compare/v1.4.0...v1.5.0) (2021-01-08)
+
+
+### Features
+
+* add window resize listener ([5812484](https://github.com/gaoljie/use-slider/commit/5812484b49778085155665d6382f65608193d9a0))
+
 # [1.4.0](https://github.com/gaoljie/use-slider/compare/v1.3.1...v1.4.0) (2020-10-03)
 
 
