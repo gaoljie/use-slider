@@ -46,6 +46,7 @@ export default function useEvent<T extends HTMLElement>(options: {
       let updatedIndex = curIndex;
 
       if (!loop && curIndex === 0 && deltaX > 0) {
+        // if it is not loop and when it is first slide, movedDelta will be smaller than deltaX, create bounce back effect
         movedDelta = Math.pow(deltaX, 9 / 10);
       }
 

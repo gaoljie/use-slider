@@ -32,16 +32,19 @@ export default function move<T extends HTMLElement>(options: {
   function moveAnimation(timestamp: number) {
     if (!startTime) startTime = timestamp;
 
+    // elapsed: [0, 1], if it is not animated, elapsed always equals to 1
     const elapsed = animate ? Math.min((timestamp - startTime) / speed, 1) : 1;
 
-    let transfromLeft = leftStart + elapsed * deltaX;
+    // transformX value
+    let transform = leftStart + elapsed * deltaX;
 
-    while (transfromLeft <= -childrenNum * slideWidth && loop)
-      transfromLeft += childrenNum * slideWidth;
-    while (transfromLeft > 0 && loop) transfromLeft -= childrenNum * slideWidth;
+    while (transform <= -childrenNum * slideWidth && loop)
+      transform += childrenNum * slideWidth;
+    while (transform > 0 && loop) transform -= childrenNum * slideWidth;
 
-    const transformStrLeft = `translateX(${transfromLeft}px)`;
+    const transformStrLeft = `translateX(${transform}px)`;
 
+    // use it when we have multiple slide in one view with last slide and first slide in the same view
     let transformRight =
       (rightStart + elapsed * deltaX) % (childrenNum * slideWidth);
 
@@ -53,6 +56,7 @@ export default function move<T extends HTMLElement>(options: {
       const child = container.children[i] as HTMLElement;
 
       if (loop) {
+        // when you swipe from left to right
         if (deltaX > 0) {
           if (i >= curIndex + slidesPerView - childrenNum) {
             child.style.transform = transformStrLeft;
@@ -67,6 +71,7 @@ export default function move<T extends HTMLElement>(options: {
           }
         }
       } else {
+        // if there is no loop, transform value = transformStrLeft
         child.style.transform = transformStrLeft;
       }
     }
