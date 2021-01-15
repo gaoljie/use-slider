@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/gaoljie/use-slider/compare/v1.5.0...v1.6.0) (2021-01-15)
+
+
+### Features
+
+* add draggable ([8cc6df2](https://github.com/gaoljie/use-slider/commit/8cc6df2397c9e9d458b49b3148936252f7cad9b1))
+
 # [1.5.0](https://github.com/gaoljie/use-slider/compare/v1.4.0...v1.5.0) (2021-01-08)
 
 
