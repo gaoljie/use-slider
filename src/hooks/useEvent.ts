@@ -13,6 +13,7 @@ export default function useEvent<T extends HTMLElement>(options: {
   setCurIndex: (value: SetStateAction<number>) => void;
   loop: boolean;
   slidesPerView: number;
+  draggable: boolean;
 }): void {
   const {
     container,
@@ -20,20 +21,27 @@ export default function useEvent<T extends HTMLElement>(options: {
     speed,
     setCurIndex,
     loop,
-    slidesPerView
+    slidesPerView,
+    draggable
   } = options;
 
   const slideWidth = container ? container.clientWidth / slidesPerView : 0;
 
   const [startClientX, setStartClientX] = useState<number | null>(null);
 
-  const dragStart = useCallback((e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
-    setStartClientX(getClientX(e));
-  }, []);
+  const dragStart = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (!draggable) return;
+      e.preventDefault();
+      setStartClientX(getClientX(e));
+    },
+    [draggable]
+  );
 
   const dragMove = useCallback(
     (e: MouseEvent | TouchEvent) => {
+      if (!draggable) return;
+
       e.preventDefault();
 
       if (startClientX === null || !container) return;
@@ -80,11 +88,21 @@ export default function useEvent<T extends HTMLElement>(options: {
         animate: false
       });
     },
-    [container, loop, slideWidth, slidesPerView, speed, startClientX, curIndex]
+    [
+      draggable,
+      container,
+      loop,
+      slideWidth,
+      slidesPerView,
+      speed,
+      startClientX,
+      curIndex
+    ]
   );
 
   const dragEnd = useCallback(
     (e: MouseEvent | TouchEvent) => {
+      if (!draggable) return;
       if (!container || startClientX === null) return;
       const clientX = getClientX(e);
 
@@ -162,6 +180,7 @@ export default function useEvent<T extends HTMLElement>(options: {
       setStartClientX(null);
     },
     [
+      draggable,
       container,
       curIndex,
       setCurIndex,

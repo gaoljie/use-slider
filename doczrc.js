@@ -5,9 +5,10 @@ export default {
   menu: [
     "Get Started",
     "Basic",
-    "AutoPlay",
-    "Multiple Slide",
     "Loop",
+    "AutoPlay",
+    "Draggable",
+    "Multiple Slide",
     "Pagination",
     "Navigation",
     "Responsive",

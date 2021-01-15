@@ -25,6 +25,7 @@ interface RawOptionProps {
   loop?: boolean;
   pagination?: boolean;
   navigation?: boolean;
+  draggable?: boolean;
   arrowLeft?: ReactElement;
   arrowRight?: ReactElement;
 }
@@ -54,6 +55,7 @@ export default function useSlider<T extends HTMLElement>(
     slidesPerView = 1,
     pagination = false,
     navigation = false,
+    draggable = true,
     arrowLeft,
     arrowRight
   } = realOptions;
@@ -179,7 +181,8 @@ export default function useSlider<T extends HTMLElement>(
     speed,
     setCurIndex,
     loop,
-    slidesPerView
+    slidesPerView,
+    draggable
   });
 
   useAutoPlay({
